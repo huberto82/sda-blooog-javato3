@@ -9,7 +9,7 @@ public interface Dao<T, U> {
 
     void save(U obj);
 
-    void delete(T obj);
+    void delete(long id);
 
-    void update(T obj);
+    void update(long id);
 }

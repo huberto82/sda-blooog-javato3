@@ -20,4 +20,12 @@ public class ArticleRepository {
         return dao.getAll();
     }
 
+    public Article get(long id){
+        return dao.get(id);
+    }
+
+    public void remove(long id){
+
+    }
+
 }

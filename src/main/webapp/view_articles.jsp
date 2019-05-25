@@ -12,6 +12,7 @@
 <%@ include file="head.jspf" %>
 <body>
 <div classs="container">
+    <%--
     <sql:setDataSource var="baza"
                        driver="com.mysql.cj.jdbc.Driver"
                        url="jdbc:mysql://localhost:3306/blooog?serverTimezone=UTC"
@@ -20,16 +21,20 @@
     <sql:query var="articles" dataSource="${baza}">
         SELECT * FROM ARTICLE;
     </sql:query>
+    --%>
     <table>
         <tr>
             <th>
                 Tytuł
             </th>
         </tr>
-        <c:forEach var="article" items="${articles.rows}">
+        <c:forEach var="article" items="${requestScope.articles}">
             <tr>
                 <td>
-                    <a href="/blooog_war/article?id=${article.id}">${article.title}</a>
+                    <a href="/blooog_war/article?action=view&id=${article.id}">${article.title}</a>
+                </td>
+                <td>
+                    <a href="article?action=delete&id=${article.id}">Usuń</a>
                 </td>
             </tr>
         </c:forEach>
