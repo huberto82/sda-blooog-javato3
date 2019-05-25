@@ -23,6 +23,12 @@ public class ArticleEntity {
         this.created = LocalDateTime.now();
     }
 
+    public ArticleEntity(NewArticle na){
+        this.content = na.content;
+        this.title = na.title;
+        this.created = LocalDateTime.now();
+    }
+
     public ArticleEntity() {
     }
 
