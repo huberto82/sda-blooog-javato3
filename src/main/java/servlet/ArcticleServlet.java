@@ -35,5 +35,6 @@ public class ArcticleServlet extends HttpServlet {
         for(ArticleEntity a: list){
             out.println(a.getContent());
         }
+        em.getTransaction().commit();
     }
 }
