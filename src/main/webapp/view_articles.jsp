@@ -36,6 +36,9 @@
                 <td>
                     <a href="article?action=delete&id=${article.id}">Usuń</a>
                 </td>
+                <td>
+                    <a href="article?action=changeTitle&id=${article.id}">Zmień tytuł</a>
+                </td>
             </tr>
         </c:forEach>
     </table>

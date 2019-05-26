@@ -6,6 +6,7 @@ import entity.NewArticle;
 import io.vavr.collection.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.Optional;
 
 public class ArticleDaoJPA implements Dao<Article, NewArticle>{
 
@@ -25,8 +26,8 @@ public class ArticleDaoJPA implements Dao<Article, NewArticle>{
     }
 
     @Override
-    public Article get(long id) {
-        return new Article(getEntity(id));
+    public Optional<Article> get(long id) {
+        return getEntity(id).map(a-> new Article(a));
     }
 
     @Override
@@ -39,22 +40,35 @@ public class ArticleDaoJPA implements Dao<Article, NewArticle>{
 
     @Override
     public void delete(long id) {
-        ArticleEntity ae = getEntity(id);
-        em.getTransaction().begin();
-        em.remove(ae);
-        em.getTransaction().commit();
+        getEntity(id).ifPresent(a-> {
+            em.getTransaction().begin();
+            em.remove(a);
+            em.getTransaction().commit();
+        });
     }
 
     @Override
-    public void update(long id) {
-        throw new UnsupportedOperationException();
+    public void update(Article obj) {
+        getEntity(obj.id).map(a->{
+            a.setTitle(obj.title);
+            a.setContent(obj.content);
+            a.setCreated(obj.created);
+            return a;
+        }).ifPresent(a->{
+             em.getTransaction().begin();
+             em.persist(a);
+             em.getTransaction().commit();
+        });
     }
 
-    private ArticleEntity getEntity(long id){
-        em.getTransaction().begin();
-        ArticleEntity a;
-        a = (ArticleEntity) em.createQuery("Select a From ArticleEntity a where id = " + id).getSingleResult();
-        em.getTransaction().commit();
-        return a;
+    private Optional<ArticleEntity> getEntity(long id){
+        try {
+            return Optional.of(em
+                    .createQuery("Select a from ArticleEntity a where id = :id", ArticleEntity.class)
+                    .setParameter("id", id)
+                    .getSingleResult());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 }
