@@ -19,7 +19,7 @@ public class ArticleDaoJPA implements Dao<Article, NewArticle>{
     @Override
     public List<Article> getAll() {
         em.getTransaction().begin();
-        Query q = em.createQuery("From ArticleEntity ");
+        Query q = em.createQuery("From ArticleEntity");
         List<Article> result = List.ofAll(q.getResultStream().map(e->new Article((ArticleEntity) e)));
         em.getTransaction().commit();
         return result;
