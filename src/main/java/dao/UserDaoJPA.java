@@ -56,4 +56,6 @@ public class UserDaoJPA implements  Dao<User, NewUser>{
             return Optional.empty();
         }
     }
+
+
 }

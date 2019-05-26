@@ -49,9 +49,18 @@ public class UserServlet extends HttpServlet {
             case ACTION_ADD_USER:{
                 String email = Encoding.encode(req.getParameter("email"));
                 String password = Encoding.encode(req.getParameter("password"));
+                String repeatedPassword = Encoding.encode(req.getParameter("repeatedPassword"));
                 String nick = Encoding.encode(req.getParameter("nick"));
-                repo.add(new NewUser(email, nick, password));
-                resp.sendRedirect("user?"+ACTION+"="+ACTION_VIEW_ALL);
+                if (repo.existEmail(email)){
+                    resp.getWriter().println("Taki email już istnieje. Zmień email.");
+                    return;
+                }
+                if (password.equals(repeatedPassword)) {
+                    repo.add(new NewUser(email, nick, password));
+                    resp.sendRedirect("user?"+ACTION+"="+ACTION_VIEW_ALL);
+                } else {
+                    resp.sendRedirect("registration_error.jsp");
+                }
             }
             break;
         }

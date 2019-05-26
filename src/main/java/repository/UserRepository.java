@@ -26,4 +26,8 @@ public class UserRepository {
     public List<User> getAll(){
         return dao.getAll();
     }
+
+    public boolean existEmail(String email){
+        return !getAll().find(user -> user.email.equals(email)).isEmpty();
+    }
 }
