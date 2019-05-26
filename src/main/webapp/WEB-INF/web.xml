@@ -7,4 +7,20 @@
         version="2.5">
 
   <display-name>blooog</display-name>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>admin pages</web-resource-name>
+      <url-pattern>/article</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+      <form-login-page>/login.html</form-login-page>
+      <form-error-page>/error.html</form-error-page>
+    </form-login-config>
+  </login-config>
 </web-app>
