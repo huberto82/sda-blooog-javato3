@@ -11,7 +11,7 @@
 <html>
 <%@ include file="head.jspf" %>
 <body>
-<div classs="container">
+<div class="container col-6">
     <%--
     <sql:setDataSource var="baza"
                        driver="com.mysql.cj.jdbc.Driver"
@@ -22,7 +22,7 @@
         SELECT * FROM ARTICLE;
     </sql:query>
     --%>
-    <table>
+    <table class = "table">
         <tr>
             <th>
                 Tytuł

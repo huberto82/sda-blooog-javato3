@@ -9,7 +9,9 @@
 <html>
 <%@include file="head.jspf"%>
 <body>
-    <h1>${requestScope.article.title}</h1>
-    <p>${requestScope.article.content}</p>
+    <div class="container col-6">
+        <h1>${requestScope.article.title}</h1>
+        <p>${requestScope.article.content}</p>
+    </div>
 </body>
 </html>

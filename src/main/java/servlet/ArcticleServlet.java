@@ -2,12 +2,10 @@ package servlet;
 
 import dao.ArticleDaoJPA;
 import entity.Article;
-import entity.ArticleEntity;
 import entity.NewArticle;
-import io.vavr.collection.List;
+import io.vavr.control.Option;
 import repository.ArticleRepository;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
@@ -17,7 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.util.Scanner;
 
 @WebServlet(urlPatterns = "/article")
 public class ArcticleServlet extends HttpServlet {
@@ -33,7 +33,6 @@ public class ArcticleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-
         switch (action) {
             case "viewAll": {
                 req.setAttribute("articles", repo.getAll().asJava());
@@ -43,17 +42,19 @@ public class ArcticleServlet extends HttpServlet {
             break;
             case "view": {
                 long id = Long.parseLong(req.getParameter("id"));
-                req.setAttribute("article", repo.get(id));
+                repo.get(id).forEach(a->req.setAttribute("article", a));
+                //req.setAttribute("article", repo.get(id).fo);
                 RequestDispatcher rd = req.getRequestDispatcher("view_article.jsp");
                 rd.forward(req, resp);
+            }
+            break;
+            case "delete": {
+                long id = Long.parseLong(req.getParameter("id"));
+                repo.remove(id);
+                resp.sendRedirect("article?action=viewAll");
 
             }
             break;
-            case "delete":{
-                long id = Long.parseLong(req.getParameter("id"));
-                repo.remove(id);
-            }
-                break;
             case "add": {
                 RequestDispatcher rd = req.getRequestDispatcher("add_article.jsp");
                 rd.forward(req, resp);
@@ -66,12 +67,27 @@ public class ArcticleServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         switch (action) {
-            case "add":
-                String title = req.getParameter("title");
-                String content = req.getParameter("content");
+            case "add": {
+                String title = encode(req.getParameter("title"));
+                String content = encode(req.getParameter("content"));
                 repo.addArticle(new NewArticle(content, title));
-                break;
+                resp.sendRedirect("article?action=viewAll");
+            }
+            break;
+            case "changeTitle": {
+                String title = encode(req.getParameter("title"));
+                parseLong(req.getParameter("id")).forEach(id-> repo.changeTitle(id, title));
+            }
+            break;
         }
+    }
 
+    private String encode(final String s) throws UnsupportedEncodingException {
+        return new String(s.getBytes("iso-8859-1"), "UTF-8");
+    }
+
+    private Option<Long> parseLong(String s){
+        Scanner in = new Scanner(s);
+        return in.hasNextLong() ? Option.of(in.nextLong()) : Option.none();
     }
 }

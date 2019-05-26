@@ -4,6 +4,8 @@ import entity.Article;
 import entity.ArticleEntity;
 import entity.NewArticle;
 import io.vavr.collection.List;
+import io.vavr.control.Option;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -26,7 +28,7 @@ public class ArticleDaoJPA implements Dao<Article, NewArticle>{
 
     @Override
     public Article get(long id) {
-        return new Article(getEntity(id));
+        return new Article(getEntity(id).get());
     }
 
     @Override
@@ -39,22 +41,31 @@ public class ArticleDaoJPA implements Dao<Article, NewArticle>{
 
     @Override
     public void delete(long id) {
-        ArticleEntity ae = getEntity(id);
         em.getTransaction().begin();
-        em.remove(ae);
+        getEntity(id).forEach(a-> em.remove(a));
         em.getTransaction().commit();
     }
 
     @Override
-    public void update(long id) {
-        throw new UnsupportedOperationException();
+    public void update(Article obj) {
+        em.getTransaction();
+        getEntity(obj.id).map(a->{
+            a.setContent(obj.content);
+            a.setCreated(obj.created);
+            a.setTitle(obj.title);
+            return a;
+        }).forEach(a-> em.persist(a));
+        em.getTransaction().commit();
     }
 
-    private ArticleEntity getEntity(long id){
-        em.getTransaction().begin();
-        ArticleEntity a;
-        a = (ArticleEntity) em.createQuery("Select a From ArticleEntity a where id = " + id).getSingleResult();
-        em.getTransaction().commit();
-        return a;
+    private Option<ArticleEntity> getEntity(long id){
+        try {
+            return Option.of((ArticleEntity) em
+                    .createQuery("select a from ArticleEntity a where id = :id")
+                    .setParameter("id", id)
+                    .getSingleResult());
+        } catch (Exception e) {
+            return Option.none();
+        }
     }
 }
