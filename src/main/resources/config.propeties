@@ -1,5 +1,5 @@
 #mail server configuration
-user = blooog
-password = B1000g
+user =
+password = 
 pop3 = mail.record-it.pl
 smtp = mail.record-it.pl
