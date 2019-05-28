@@ -1,16 +1,12 @@
 package servlet;
 
-import dao.ArticleDaoJPA;
 import dao.UserDaoJPA;
-import entity.NewArticle;
-import entity.NewUser;
+import entity.user.NewUser;
 import helper.Encoding;
-import repository.ArticleRepository;
 import repository.UserRepository;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

@@ -1,7 +1,7 @@
 package servlet;
 
 import dao.ArticleDaoJPA;
-import entity.NewArticle;
+import entity.article.NewArticle;
 import helper.Encoding;
 import helper.Parse;
 import repository.ArticleRepository;

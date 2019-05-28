@@ -1,4 +1,4 @@
-package entity;
+package entity.user;
 
 public class NewUser {
     public final String email;
@@ -9,6 +9,13 @@ public class NewUser {
         this.email = email;
         this.nick = nick;
         this.password = password;
+
+    }
+
+    public NewUser(UserEntity ue){
+        this.email = ue.getEmail();
+        this.nick = ue.getNick();
+        this.password = ue.getPassword();
     }
 
     public String getEmail() {

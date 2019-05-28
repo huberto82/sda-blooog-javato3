@@ -1,4 +1,4 @@
-package entity;
+package entity.user;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,15 +11,22 @@ public class UserEntity {
     @Column(name="id", unique = true, nullable = false)
     private long id;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String nick;
+
 
     private LocalDateTime registered;
 
     private LocalDateTime lastLogin;
 
+
     private String password;
+
+    @Column(nullable = false)
+    private boolean enabled;
 
     public UserEntity() {
     }
@@ -30,6 +37,16 @@ public class UserEntity {
         this.nick = nu.nick;
         this.registered = LocalDateTime.now();
         this.lastLogin = LocalDateTime.now();
+        this.enabled = false;
+    }
+
+    public UserEntity(User u){
+        this.password = u.password;
+        this.email = u.email;
+        this.nick = u.nick;
+        this.registered = u.registered;
+        this.lastLogin = u.lastLogin;
+        this.enabled = u.enabled;
     }
 
     public long getId() {
@@ -78,5 +95,13 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

@@ -1,8 +1,8 @@
 package repository;
 
 import dao.Dao;
-import entity.Article;
-import entity.NewArticle;
+import entity.article.Article;
+import entity.article.NewArticle;
 import io.vavr.collection.List;
 
 import java.util.Optional;

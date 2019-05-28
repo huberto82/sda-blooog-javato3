@@ -1,8 +1,8 @@
 package dao;
 
-import entity.Article;
-import entity.ArticleEntity;
-import entity.NewArticle;
+import entity.article.Article;
+import entity.article.ArticleEntity;
+import entity.article.NewArticle;
 import io.vavr.collection.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
