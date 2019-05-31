@@ -8,15 +8,16 @@ public class MailService {
     private final String password;
     private final String username;
 
-    public MailService(String password, String username) {
+    public MailService(String username, String password) {
         this.password = password;
         this.username = username;
         this.prop = new Properties();
         prop.put("mail.smtp.auth", true);
-        prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.host", "mail.record-it.pl");
-        prop.put("mail.smtp.port", "25");
+        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.ssl.trust", "mail.record-it.pl");
+
     }
 
     public void sendMailTo(String email, String subject, String content) {
@@ -28,7 +29,7 @@ public class MailService {
         });
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(""));
+            message.setFrom(new InternetAddress("blooog@record-it.pl"));
             message.setRecipients(
                     Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject(subject);
@@ -43,9 +44,9 @@ public class MailService {
 
             Transport.send(message);
         } catch (AddressException e) {
-
+            System.err.println("Address unknown");
         } catch (MessagingException e) {
-
+            System.err.println("Messaging exception " + e);
         }
     }
 }

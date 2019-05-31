@@ -31,11 +31,12 @@ public class ArticleDaoJPA implements Dao<Article, NewArticle>{
     }
 
     @Override
-    public void save(NewArticle obj) {
-        ArticleEntity ae = new ArticleEntity(obj);
+    public long save(NewArticle obj) {
         em.getTransaction().begin();
-        em.persist(ae);
+        ArticleEntity entity = new ArticleEntity(obj);
+        em.persist(entity);
         em.getTransaction().commit();
+        return entity.getId();
     }
 
     @Override

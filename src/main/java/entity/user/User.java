@@ -38,4 +38,8 @@ public class User extends NewUser{
         return new User(ue);
     }
 
+    public UserEntity toUserEntity(){
+        return new UserEntity(this);
+    }
+
 }

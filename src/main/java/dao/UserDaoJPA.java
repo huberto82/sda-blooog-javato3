@@ -32,10 +32,13 @@ public class UserDaoJPA implements UserDao<User, NewUser> {
     }
 
     @Override
-    public void save(NewUser obj) {
+    public long save(NewUser obj) {
         em.getTransaction().begin();
-        em.persist(new UserEntity(obj));
+        UserEntity entity = new UserEntity(obj);
+        em.persist(entity);
+        em.flush();
         em.getTransaction().commit();
+        return entity.getId();
     }
 
     @Override
@@ -45,7 +48,20 @@ public class UserDaoJPA implements UserDao<User, NewUser> {
 
     @Override
     public void update(User obj) {
-
+        getEntity(obj.id).map(user ->{
+            user.setEmail(obj.email);
+            user.setNick(obj.nick);
+            user.setPassword(obj.password);
+            user.setRegistered(obj.registered);
+            user.setEnabled(obj.enabled);
+            user.setLastLogin(obj.lastLogin);
+            return user;
+        }).ifPresent(user -> {
+                em.getTransaction().begin();
+                em.persist(user);
+                em.getTransaction().commit();
+            }
+        );
     }
 
     private Optional<UserEntity> getEntity(long id) {
@@ -73,7 +89,7 @@ public class UserDaoJPA implements UserDao<User, NewUser> {
     public Optional<User> findByEmail(String email) {
         try {
             return Optional.of(em
-                    .createQuery("Select u from UserEntity u where email like :email", UserEntity.class)
+                    .createQuery("Select u from UserEntity u where email = :email", UserEntity.class)
                     .setParameter("email", email)
                     .getSingleResult()).map(ue -> new User(ue));
         } catch (Exception e) {
@@ -88,4 +104,5 @@ public class UserDaoJPA implements UserDao<User, NewUser> {
                 .getResultStream()
                 .map(ue -> new User(ue)));
     }
+
 }

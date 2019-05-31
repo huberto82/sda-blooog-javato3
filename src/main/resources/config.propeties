@@ -1,5 +1,0 @@
-#mail server configuration
-user =
-password = 
-pop3 = mail.record-it.pl
-smtp = mail.record-it.pl

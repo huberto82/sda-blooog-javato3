@@ -49,6 +49,10 @@ public class UserEntity {
         this.enabled = u.enabled;
     }
 
+    public User toUser(){
+        return new User(this);
+    }
+
     public long getId() {
         return id;
     }

@@ -6,11 +6,12 @@ import java.util.Properties;
 public enum BlooogConfig {
     VALUES;
     private static final String CONFIG_PATH= "config.properties";
-    String mailPop3;
-    String mailSmtp;
-    String mailUser;
-    String mailPassword;
-    String errorMessage = null;
+    private String mailPop3;
+    private String mailSmtp;
+    private String mailUser;
+    private String mailPassword;
+    private String errorMessage = null;
+    private String url;
 
     BlooogConfig(){
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(CONFIG_PATH)){
@@ -24,6 +25,7 @@ public enum BlooogConfig {
             this.mailPassword = prop.getProperty("password");
             this.mailPop3 = prop.getProperty("pop3");
             this.mailSmtp = prop.getProperty("smtp");
+            this.url = prop.getProperty("url");
         } catch (Exception e) {
             errorMessage = "File config not found!";
         }
@@ -47,5 +49,9 @@ public enum BlooogConfig {
 
     public String getErrorMessage() {
         return errorMessage == null ? "No errors" : errorMessage;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

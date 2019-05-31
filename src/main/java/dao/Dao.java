@@ -9,7 +9,7 @@ public interface Dao<T, U> {
 
     Optional<T> get(long id);
 
-    void save(U obj);
+    long save(U obj);
 
     void delete(long id);
 
