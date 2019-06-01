@@ -8,5 +8,6 @@
 <a href = "article?action=add">Dodaj artykuł</a>
 <a href = "user?action=add">Zarejestruj</a>
 <a href = "user?action=login">Zaloguj</a>
+<a href = "logged/show?action=logout">Wyloguj</a>
 </body>
 </html>

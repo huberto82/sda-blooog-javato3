@@ -12,6 +12,7 @@ import java.io.IOException;
 @WebServlet(name="LoggedUserServlet", urlPatterns = "/logged/show")
 public class LoggedUserServlet extends HttpServlet {
     static final String ACTION_PROFILE = "profile";
+    static final String ACTION_LOGOUT = "logout";
     static final String ACTION = "action";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,6 +23,15 @@ public class LoggedUserServlet extends HttpServlet {
                 resp.getWriter().println("Użytkownik: "+user.getNick() +" "+user.getEmail());
             };
             break;
+            case ACTION_LOGOUT:{
+                User user = (User) req.getSession().getAttribute("loggedUser");
+                req.getSession().removeAttribute("loggedUser");
+                resp.getWriter().println("Użytkownik  " +user.getNick() + " został wylogowany");
+            }
+            break;
         }
     }
 }
+
+//TODO dodać formularz i akcję zmiany hasła
+//TODO zmiana nick'a

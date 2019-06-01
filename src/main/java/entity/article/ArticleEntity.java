@@ -1,6 +1,7 @@
 package entity.article;
 
 import entity.user.UserEntity;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,9 +20,9 @@ public class ArticleEntity {
 
     private LocalDateTime created;
 
-
     @ManyToOne
     @JoinColumn(name="author_id", nullable = false)
+    @ColumnDefault("0")
     private UserEntity author;
 
 
@@ -80,9 +81,9 @@ public class ArticleEntity {
 
     public UserEntity getAuthor() {
         return author;
-    }
+    } //dodać
 
     public void setAuthor(UserEntity author) {
         this.author = author;
-    }
+    } //dodać
 }
