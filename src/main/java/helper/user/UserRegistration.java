@@ -6,7 +6,6 @@ import helper.Encoding;
 import helper.MailService;
 
 public class UserRegistration{
-
     private static final String REGISTER_ACTION = "/user?action=verify";
 
     public static boolean verifyUser(User user, String token){
@@ -26,6 +25,7 @@ public class UserRegistration{
                         + "&token="
                         + Encoding.generateToken(getUserToken(user)));
     }
+
     private static String getUserToken(User user){
         return user.nick+ user.password + user.email + user.registered;
     }

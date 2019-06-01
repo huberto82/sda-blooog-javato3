@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Optional;
 
-public class ArticleDaoJPA implements Dao<Article, NewArticle>{
+public class ArticleDaoJPA implements ArticleDao<Article, NewArticle>{
 
     private EntityManager em;
 
@@ -71,5 +71,13 @@ public class ArticleDaoJPA implements Dao<Article, NewArticle>{
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Article> findByUserId(long id) {
+        return List.ofAll(em.createQuery("Select a from ArticleEntity a where author =:id", ArticleEntity.class)
+        .setParameter("id", id)
+        .getResultList().stream()
+        .map(art -> new Article(art)));
     }
 }

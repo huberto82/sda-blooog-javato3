@@ -7,5 +7,6 @@
 <a href = "article?action=viewAll">Lista artykułów</a>
 <a href = "article?action=add">Dodaj artykuł</a>
 <a href = "user?action=add">Zarejestruj</a>
+<a href = "user?action=login">Zaloguj</a>
 </body>
 </html>

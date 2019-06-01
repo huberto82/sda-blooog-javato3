@@ -2,7 +2,9 @@ package repository;
 
 import dao.Dao;
 import entity.article.Article;
+import entity.article.ArticleEntity;
 import entity.article.NewArticle;
+import entity.user.UserEntity;
 import io.vavr.collection.List;
 
 import java.util.Optional;
@@ -31,9 +33,12 @@ public class ArticleRepository {
     }
 
     public void changeTitle(long id, String title){
-        dao.get(id)
-                .map(old -> new Article(old.id, title, old.content, old.created))
-                .ifPresent(a-> dao.update(a));
+        dao.get(id).map(art -> {
+            ArticleEntity ae = new ArticleEntity(art);
+            ae.setTitle(title);
+            return new Article(ae);
+        }).ifPresent(art -> dao.update(art));
     }
+
 
 }

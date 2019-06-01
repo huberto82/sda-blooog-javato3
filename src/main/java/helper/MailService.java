@@ -1,4 +1,6 @@
 package helper;
+import config.BlooogConfig;
+
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.util.Properties;
@@ -13,10 +15,11 @@ public class MailService {
         this.username = username;
         this.prop = new Properties();
         prop.put("mail.smtp.auth", true);
-        prop.put("mail.smtp.host", "mail.record-it.pl");
+        //zamienić na dane z konfiguracji
+        prop.put("mail.smtp.host", BlooogConfig.VALUES.getMailSmtp());
         prop.put("mail.smtp.port", "587");
         prop.put("mail.smtp.starttls.enable", "true");
-        prop.put("mail.smtp.ssl.trust", "mail.record-it.pl");
+        prop.put("mail.smtp.ssl.trust", BlooogConfig.VALUES.getMailSmtp());
 
     }
 
@@ -39,9 +42,7 @@ public class MailService {
 
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(mimeBodyPart);
-
             message.setContent(multipart);
-
             Transport.send(message);
         } catch (AddressException e) {
             System.err.println("Address unknown");

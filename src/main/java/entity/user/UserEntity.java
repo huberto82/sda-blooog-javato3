@@ -1,7 +1,10 @@
 package entity.user;
 
+import entity.article.ArticleEntity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name ="user")
@@ -17,13 +20,14 @@ public class UserEntity {
     @Column(nullable = false)
     private String nick;
 
-
     private LocalDateTime registered;
 
     private LocalDateTime lastLogin;
 
-
     private String password;
+
+    @OneToMany(mappedBy = "author")
+    private Set<ArticleEntity> articles = new HashSet<>();
 
     @Column(nullable = false)
     private boolean enabled;
@@ -107,5 +111,13 @@ public class UserEntity {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Set<ArticleEntity> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(Set<ArticleEntity> articles) {
+        this.articles = articles;
     }
 }

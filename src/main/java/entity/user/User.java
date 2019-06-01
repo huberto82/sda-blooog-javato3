@@ -41,5 +41,4 @@ public class User extends NewUser{
     public UserEntity toUserEntity(){
         return new UserEntity(this);
     }
-
 }

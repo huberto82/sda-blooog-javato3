@@ -1,21 +1,19 @@
 package entity.article;
 
+import entity.user.User;
+
 import java.time.LocalDateTime;
 
 public class Article extends NewArticle{
     public final long id;
     public final LocalDateTime created;
-
-    public Article(long id, String title, String content, LocalDateTime created) {
-        super(content, title);
-        this.id = id;
-        this.created = created;
-    }
+    public final User author;
 
     public Article(ArticleEntity en){
         super(en.getContent(), en.getTitle());
         this.id = en.getId();
         this.created = en.getCreated();
+        this.author = new User(en.getAuthor());
     }
 
     public long getId() {
@@ -24,5 +22,9 @@ public class Article extends NewArticle{
 
     public LocalDateTime getCreated() {
         return created;
+    }
+
+    public User getAuthor() {
+        return author;
     }
 }

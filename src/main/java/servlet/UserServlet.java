@@ -94,12 +94,12 @@ public class UserServlet extends HttpServlet {
             case ACTION_LOGIN_USER:{
                 String email = Encoding.encode(req.getParameter("email"));
                 String password = Encoding.encode(req.getParameter("password"));
-                System.out.println(email +" " + password);
                 repo.login(email, password).ifPresent(logedUser -> {
-                    req.getSession().setAttribute("logedUser", logedUser);
-                    System.out.println(logedUser.lastLogin);
+                    req.getSession().setAttribute("loggedUser", logedUser);
+                    req.getSession().setMaxInactiveInterval(3000);
+                    //TODO kierujemy zalogowanego użytkownika - dopisać
                 });
-                if (req.getSession().getAttribute("logedUser") == null){
+                if (req.getSession().getAttribute("loggedUser") == null){
                     resp.getWriter().println("Nie zalogowano, niepoprawny login lub hasło");
                 } else {
                     resp.getWriter().println("Zostałeś pomyślnie zalogowany");

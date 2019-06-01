@@ -1,10 +1,13 @@
 package servlet;
 
 import dao.ArticleDaoJPA;
+import dao.UserDaoJPA;
 import entity.article.NewArticle;
 import helper.Encoding;
 import helper.Parse;
 import repository.ArticleRepository;
+import repository.UserRepository;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
@@ -26,12 +29,14 @@ public class ArticleServlet extends HttpServlet {
     public static final String ACTION_UPDATE = "update";
     public static final String ACTION = "action";
 
-    ArticleRepository repo;
+    ArticleRepository articleRepository;
+    UserRepository userRepository;
 
     @Override
     public void init() throws ServletException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("blooog");
-        repo = new ArticleRepository(new ArticleDaoJPA(factory.createEntityManager()));
+        articleRepository = new ArticleRepository(new ArticleDaoJPA(factory.createEntityManager()));
+        userRepository = new UserRepository((new UserDaoJPA(factory.createEntityManager())));
     }
 
     @Override
@@ -40,32 +45,33 @@ public class ArticleServlet extends HttpServlet {
 
         switch (action) {
             case ACTION_VIEW_ALL: {
-                req.setAttribute("articles", repo.getAll().asJava());
+                req.setAttribute("articles", articleRepository.getAll().asJava());
                 RequestDispatcher rd = req.getRequestDispatcher("view_articles.jsp");
                 rd.forward(req, resp);
             }
             break;
             case ACTION_VIEW: {
                 Parse.parseLong(req.getParameter("id"))
-                        .ifPresent(id -> repo.get(id)
+                        .ifPresent(id -> articleRepository.get(id)
                                 .ifPresent(a -> req.setAttribute("article", a)));
                 RequestDispatcher rd = req.getRequestDispatcher("view_article.jsp");
                 rd.forward(req, resp);
             }
             break;
             case ACTION_DELETE: {
-                Parse.parseLong(req.getParameter("id")).ifPresent(id -> repo.remove(id));
+                Parse.parseLong(req.getParameter("id")).ifPresent(id -> articleRepository.remove(id));
                 resp.sendRedirect("article?"+ACTION+"="+ACTION_VIEW_ALL);
             }
             break;
             case ACTION_ADD: {
+                req.setAttribute("users", articleRepository.getAll().asJava());
                 RequestDispatcher rd = req.getRequestDispatcher("add_article.jsp");
                 rd.forward(req, resp);
             }
             break;
             case ACTION_CHANGE_TITLE:
                 Parse.parseLong(req.getParameter("id"))
-                        .ifPresent(id -> repo.get(id)
+                        .ifPresent(id -> articleRepository.get(id)
                                         .ifPresent(a -> {
                                             req.setAttribute("article", a);
                                         }));
@@ -82,14 +88,14 @@ public class ArticleServlet extends HttpServlet {
             case ACTION_ADD: {
                 String title = Encoding.encode(req.getParameter("title"));
                 String content = Encoding.encode(req.getParameter("content"));
-                repo.addArticle(new NewArticle(content, title));
+                articleRepository.addArticle(new NewArticle(content, title));
                 resp.sendRedirect("article?"+ACTION+"="+ACTION_VIEW_ALL);
                 break;
             }
             case ACTION_UPDATE: {
                 String title = Encoding.encode(req.getParameter("title"));
                 Parse.parseLong(req.getParameter("id"))
-                        .ifPresent(id -> repo.changeTitle(id, title));
+                        .ifPresent(id -> articleRepository.changeTitle(id, title));
                 resp.sendRedirect("article?"+ACTION+"="+ACTION_VIEW_ALL);
             }
         }

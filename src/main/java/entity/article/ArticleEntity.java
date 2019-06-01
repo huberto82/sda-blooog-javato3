@@ -1,5 +1,7 @@
 package entity.article;
 
+import entity.user.UserEntity;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -16,6 +18,11 @@ public class ArticleEntity {
     private String title;
 
     private LocalDateTime created;
+
+
+    @ManyToOne
+    @JoinColumn(name="author_id", nullable = false)
+    private UserEntity author;
 
 
     public ArticleEntity(String content) {
@@ -69,5 +76,13 @@ public class ArticleEntity {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public UserEntity getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(UserEntity author) {
+        this.author = author;
     }
 }

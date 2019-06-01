@@ -26,6 +26,7 @@ public enum BlooogConfig {
             this.mailPop3 = prop.getProperty("pop3");
             this.mailSmtp = prop.getProperty("smtp");
             this.url = prop.getProperty("url");
+
         } catch (Exception e) {
             errorMessage = "File config not found!";
         }

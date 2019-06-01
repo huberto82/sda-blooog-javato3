@@ -10,7 +10,7 @@
 <%@ include file="head.jspf" %>
 <body>
 <div class="container col-6">
-    <h1>Dodaj artykuł do bloga</h1>
+    <h1>Dodaj użytkownika do bloga</h1>
     <form action="user?action=add" method="post">
         <div class = "form-group">
             <input class ="form-control mb-3" type="email" name="email" placeholder="wpisz email"/>
