@@ -12,16 +12,6 @@
 <%@ include file="head.jspf" %>
 <body>
 <div classs="container">
-    <%--
-    <sql:setDataSource var="baza"
-                       driver="com.mysql.cj.jdbc.Driver"
-                       url="jdbc:mysql://localhost:3306/blooog?serverTimezone=UTC"
-                       user="root"
-                       password=""/>
-    <sql:query var="articles" dataSource="${baza}">
-        SELECT * FROM ARTICLE;
-    </sql:query>
-    --%>
     <table>
         <tr>
             <th>

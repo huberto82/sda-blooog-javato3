@@ -6,7 +6,7 @@ import javax.persistence.Query;
 import java.util.Optional;
 import java.util.Set;
 
-class TagDaoJPA implements TagDao<TagEntity, TagEntity>, DaoJPA{
+class TagDaoJPA implements TagDao<TagEntity, TagEntity>{
 
     private final EntityManager em;
 
@@ -61,10 +61,5 @@ class TagDaoJPA implements TagDao<TagEntity, TagEntity>, DaoJPA{
             em.persist(te);
             em.getTransaction().commit();
         }
-    }
-
-    @Override
-    public EntityManager getEntityManager(String unit) {
-        return em;
     }
 }

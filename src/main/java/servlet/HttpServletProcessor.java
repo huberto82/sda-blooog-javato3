@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@FunctionalInterface
 public interface HttpServletProcessor {
-    void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException;
+    void process(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException;
 }

@@ -4,7 +4,7 @@ import entity.user.User;
 import io.vavr.collection.List;
 import java.util.Optional;
 
-interface UserDao<T, U> extends Dao<T, U> {
+public interface UserDao<T, U> extends Dao<T, U> {
 
     void enable(long id);
 

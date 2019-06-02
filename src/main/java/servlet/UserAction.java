@@ -9,16 +9,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
-enum UserAction {
+public enum UserAction {
     GET_REGISTER((req, resp) -> {
         req.getRequestDispatcher("add_user.jsp").forward(req, resp);
     }),
 
     GET_VERIFY ( (req,resp) -> {
-        String token = req.getParameter("token");
+        String token = req.getParameter(UserAction.PARAMETER_TOKEN);
         Parse
-                .parseLong(req.getParameter("id"))
+                .parseLong(req.getParameter(UserAction.PARAMETER_ID))
                 .map(id -> Repositories.USER.get(id).get())
                 .ifPresent(user -> {
                     if (UserRegistration.verifyUser(user, token)) {
@@ -56,10 +57,10 @@ enum UserAction {
         });
     }),
     POST_REGISTER((req, resp) ->{
-        String email = Encoding.encode(req.getParameter("email"));
-        String password = Encoding.encode(req.getParameter("password"));
-        String repeatedPassword = Encoding.encode(req.getParameter("repeatedPassword"));
-        String nick = Encoding.encode(req.getParameter("nick"));
+        String email = Encoding.encode(req.getParameter(UserAction.PARAMETER_EMAIL));
+        String password = Encoding.encode(req.getParameter(UserAction.PARAMETER_PASSWORD));
+        String repeatedPassword = Encoding.encode(req.getParameter(UserAction.PARAMETER_REPEATED_PASSWORD));
+        String nick = Encoding.encode(req.getParameter(UserAction.PARAMETER_NICK));
         if (Repositories.USER.existEmail(email)){
             resp.getWriter().println("Taki adres email już istnieje. Zmień email.");
             return;
@@ -67,28 +68,36 @@ enum UserAction {
         if (password.equals(repeatedPassword)) {
             Repositories.USER.add(new NewUser(email, nick, password));
             Repositories.USER.findByEmail(email).ifPresent(user -> Repositories.USER.get(user.id).ifPresent(UserRegistration::sendRegistrationMail));
-            resp.sendRedirect("user?"+ UserAction.ACTION +"="+ UserAction.GET_VIEW_ALL);
+            resp.sendRedirect("user?"+ UserAction.PARAMETER_ACTION +"="+ UserAction.GET_VIEW_ALL);
         } else {
             resp.sendRedirect("registration_error.jsp");
         }
     }),
     POST_LOGIN((req, resp) -> {
-        String email = Encoding.encode(req.getParameter("email"));
-        String password = Encoding.encode(req.getParameter("password"));
+        String email = Encoding.encode(req.getParameter(UserAction.PARAMETER_EMAIL));
+        String password = Encoding.encode(req.getParameter(UserAction.PARAMETER_PASSWORD));
+        System.out.println(email +" "+password);
         Repositories.USER.login(email, password).ifPresent(logedUser -> {
-            req.getSession().setAttribute("loggedUser", logedUser);
+            req.getSession().setAttribute(UserAction.ATTRIBUTE_LOGGED_USER, logedUser);
             System.out.println("LOGGED USER: " + logedUser);
             req.getSession().setMaxInactiveInterval(3000);
-            //TODO kierujemy zalogowanego użytkownika - dopisać
         });
-        if (req.getSession().getAttribute("loggedUser") == null){
+        if (req.getSession().getAttribute(UserAction.ATTRIBUTE_LOGGED_USER) == null){
             resp.getWriter().println("Nie zalogowano, niepoprawny login lub hasło");
         } else {
             resp.getWriter().println("Zostałeś pomyślnie zalogowany");
         }
     });
 
-    public static final String ACTION = "ACTION";
+    public static final String PARAMETER_ACTION = "action";
+    public static final String PARAMETER_ID = "id";
+    public static final String PARAMETER_EMAIL = "email";
+    public static final String PARAMETER_PASSWORD = "password";
+    public static final String PARAMETER_TOKEN = "token";
+    public static final String ATTRIBUTE_LOGGED_USER = "loggedUser";
+    public static final String PARAMETER_NICK = "nick";
+    public static final String PARAMETER_REPEATED_PASSWORD = "repeatedPassword";
+
     private HttpServletProcessor processor;
 
     UserAction(HttpServletProcessor processor){

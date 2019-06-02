@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 public class Encoding {
 
     static public String encode(String input) throws UnsupportedEncodingException {
-        return new String(input.getBytes("iso-8859-1"), "UTF-8");
+        return input != null ? new String(input.getBytes("iso-8859-1"), "UTF-8"): null;
     }
 
     static public String bytesToHex(byte[] hash) {
