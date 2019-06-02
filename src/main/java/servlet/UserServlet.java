@@ -1,15 +1,11 @@
 package servlet;
 
-import config.BlooogConfig;
-import dao.UserDaoJPA;
+import dao.Daos;
 import entity.user.NewUser;
 import helper.Encoding;
 import helper.Parse;
 import helper.user.UserRegistration;
 import repository.UserRepository;
-
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,59 +15,23 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/user")
 public class UserServlet extends HttpServlet {
-    private static final String ACTION_ADD_USER = "add";
-    private static final String ACTION_VIEW_ALL = "viewAll";
-    private static final String ACTION_VIEW = "view";
     private static final String ACTION = "action";
-    private static final String ACTION_VERIFY_USER = "verify";
-    private static final String ACTION_LOGIN_USER = "login";
-
-    private UserRepository repo;
+    private UserRepository repo = new UserRepository(Daos.USER);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter(ACTION);
-        switch(action){
-            case ACTION_VIEW_ALL: {
-                req.setAttribute("users", repo.getAll().asJava());
-                req.getRequestDispatcher("view_users.jsp").forward(req, resp);
-            }
-            break;
-            case ACTION_ADD_USER:{
-                req.getRequestDispatcher("add_user.jsp").forward(req, resp);
-            }
-            break;
-            case ACTION_VERIFY_USER:{
-                String token = req.getParameter("token");
-                Parse
-                        .parseLong(req.getParameter("id"))
-                        .map(id -> repo.get(id).get())
-                        .ifPresent(user -> {
-                            if (UserRegistration.verifyUser(user, token)) {
-                                repo.enableUser(user.id);
-                                try {
-                                    resp.getWriter().println("User registered and verified, you may login");
-                                } catch (IOException e) {
-                                    try {
-                                        resp.sendRedirect("user_login.jsp");
-                                    } catch (IOException ex) {
-                                        ex.printStackTrace();
-                                    }
-                                }
-                            }
-                        });
-            }
-            break;
-            case ACTION_LOGIN_USER:{
-                req.getRequestDispatcher("user_login.jsp").forward(req,resp);
-            }
-            break;
+        try {
+            UserAction.valueOf(req.getParameter(ACTION)).process(req, resp);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Invalid action name");
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        UserAction.valueOf(req.getParameter(ACTION)).process(req,resp);
         String action = req.getParameter(ACTION);
+
         switch(action){
             case ACTION_ADD_USER:{
                 String email = Encoding.encode(req.getParameter("email"));
@@ -96,6 +56,7 @@ public class UserServlet extends HttpServlet {
                 String password = Encoding.encode(req.getParameter("password"));
                 repo.login(email, password).ifPresent(logedUser -> {
                     req.getSession().setAttribute("loggedUser", logedUser);
+                    System.out.println("LOGGED USER: " + logedUser);
                     req.getSession().setMaxInactiveInterval(3000);
                     //TODO kierujemy zalogowanego użytkownika - dopisać
                 });
@@ -109,9 +70,4 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    @Override
-    public void init() throws ServletException {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("blooog");
-        repo = new UserRepository(new UserDaoJPA(factory.createEntityManager()));
-    }
 }

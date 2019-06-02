@@ -17,7 +17,7 @@ public class MailService {
         prop.put("mail.smtp.auth", true);
         //zamienić na dane z konfiguracji
         prop.put("mail.smtp.host", BlooogConfig.VALUES.getMailSmtp());
-        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.port", BlooogConfig.VALUES.getSmtpPort());
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.ssl.trust", BlooogConfig.VALUES.getMailSmtp());
 

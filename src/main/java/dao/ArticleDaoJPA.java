@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Optional;
 
-public class ArticleDaoJPA implements ArticleDao<Article, NewArticle>{
+class ArticleDaoJPA<User, NewUser> implements ArticleDao<Article, NewArticle>{
 
     private EntityManager em;
 

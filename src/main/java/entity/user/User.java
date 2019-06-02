@@ -41,4 +41,17 @@ public class User extends NewUser{
     public UserEntity toUserEntity(){
         return new UserEntity(this);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", registered=" + registered +
+                ", lastLogin=" + lastLogin +
+                ", enabled=" + enabled +
+                ", email='" + email + '\'' +
+                ", nick='" + nick + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

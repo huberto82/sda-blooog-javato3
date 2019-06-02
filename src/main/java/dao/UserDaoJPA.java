@@ -1,5 +1,4 @@
 package dao;
-
 import entity.user.NewUser;
 import entity.user.User;
 import entity.user.UserEntity;
@@ -9,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Optional;
 
-public class UserDaoJPA implements UserDao<User, NewUser> {
+class UserDaoJPA implements UserDao<User, NewUser> {
 
     private final EntityManager em;
 

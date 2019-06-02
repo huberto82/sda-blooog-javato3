@@ -12,6 +12,7 @@ public enum BlooogConfig {
     private String mailPassword;
     private String errorMessage = null;
     private String url;
+    private String smtpPort;
 
     BlooogConfig(){
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(CONFIG_PATH)){
@@ -26,6 +27,7 @@ public enum BlooogConfig {
             this.mailPop3 = prop.getProperty("pop3");
             this.mailSmtp = prop.getProperty("smtp");
             this.url = prop.getProperty("url");
+            this.smtpPort = prop.getProperty("smtpPort");
 
         } catch (Exception e) {
             errorMessage = "File config not found!";
@@ -54,5 +56,9 @@ public enum BlooogConfig {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getSmtpPort() {
+        return smtpPort;
     }
 }

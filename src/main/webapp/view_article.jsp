@@ -10,7 +10,7 @@
 <%@include file="head.jspf"%>
 <body>
     <h1>${requestScope.article.title}</h1>
-    <p>${requestScope.article.content}</p>
-    <p>${requestScope.article.author.nick}</p>
+    <p>Treść: ${requestScope.article.content}</p>
+    <p>Autor: ${requestScope.article.author.nick}</p>
 </body>
 </html>

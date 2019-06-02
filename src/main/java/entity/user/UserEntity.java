@@ -45,6 +45,7 @@ public class UserEntity {
     }
 
     public UserEntity(User u){
+        this.id = u.id;
         this.password = u.password;
         this.email = u.email;
         this.nick = u.nick;
@@ -119,5 +120,19 @@ public class UserEntity {
 
     public void setArticles(Set<ArticleEntity> articles) {
         this.articles = articles;
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", nick='" + nick + '\'' +
+                ", registered=" + registered +
+                ", lastLogin=" + lastLogin +
+                ", password='" + password + '\'' +
+                ", articles=" + articles +
+                ", enabled=" + enabled +
+                '}';
     }
 }

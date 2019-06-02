@@ -9,13 +9,10 @@ public class Article extends NewArticle{
 
     public final LocalDateTime created;
 
-    public final User author; //dodać
-
     public Article(ArticleEntity en){
-        super(en.getContent(), en.getTitle());
+        super(en.getContent(), en.getTitle(), new User(en.getAuthor()), en.getTags());
         this.id = en.getId();
         this.created = en.getCreated();
-        this.author = new User(en.getAuthor()); //dodać
     }
 
     public long getId() {

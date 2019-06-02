@@ -50,12 +50,15 @@ public class UserRepository {
         return dao.findByEmail(email);
     }
 
-    public Optional<User> login(String email, String password){
-        Optional<User> logedUser =  findByEmail(email).map(user -> user.password.equals(password) && user.enabled ? user : null);
+    public Optional<User> login(String email, String pass){
+        Optional<User> logedUser =  findByEmail(email).map(user -> user.password.equals(pass) && user.enabled ? user : null);
         return logedUser.map(user -> {
+            System.out.println("USER PRZED"+user);
             UserEntity ue = user.toUserEntity();
+            System.out.println("USER PRZED" + ue);
             ue.setLastLogin(LocalDateTime.now());
             User u = ue.toUser();
+
             dao.update(u);
             return u;
         });

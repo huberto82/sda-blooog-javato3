@@ -1,15 +1,12 @@
 package servlet;
 
-import dao.ArticleDaoJPA;
-import dao.UserDaoJPA;
+import dao.Daos;
 import entity.article.NewArticle;
 import helper.Encoding;
 import helper.Parse;
 import repository.ArticleRepository;
 import repository.UserRepository;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashSet;
 
 @WebServlet(urlPatterns = "/article")
 public class ArticleServlet extends HttpServlet {
@@ -29,15 +27,9 @@ public class ArticleServlet extends HttpServlet {
     public static final String ACTION_UPDATE = "update";
     public static final String ACTION = "action";
 
-    ArticleRepository articleRepository;
-    UserRepository userRepository;
+    ArticleRepository articleRepository = new ArticleRepository(Daos.ARTICLE);
+    UserRepository userRepository = new UserRepository(Daos.USER);
 
-    @Override
-    public void init() throws ServletException {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("blooog");
-        articleRepository = new ArticleRepository(new ArticleDaoJPA(factory.createEntityManager()));
-        userRepository = new UserRepository((new UserDaoJPA(factory.createEntityManager())));
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -88,7 +80,7 @@ public class ArticleServlet extends HttpServlet {
             case ACTION_ADD: {
                 String title = Encoding.encode(req.getParameter("title"));
                 String content = Encoding.encode(req.getParameter("content"));
-                articleRepository.addArticle(new NewArticle(content, title));
+                articleRepository.addArticle(new NewArticle(content, title, userRepository.get(0).get(), new HashSet<>()));
                 resp.sendRedirect("article?"+ACTION+"="+ACTION_VIEW_ALL);
                 break;
             }
