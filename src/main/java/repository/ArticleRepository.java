@@ -4,12 +4,12 @@ import dao.Dao;
 import entity.article.Article;
 import entity.article.ArticleEntity;
 import entity.article.NewArticle;
-import entity.user.UserEntity;
 import io.vavr.collection.List;
 
 import java.util.Optional;
 
 public class ArticleRepository {
+
     private Dao<Article, NewArticle> dao;
 
     public ArticleRepository(Dao<Article, NewArticle> dao) {

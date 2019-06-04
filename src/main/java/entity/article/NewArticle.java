@@ -8,7 +8,7 @@ import java.util.Set;
 public class NewArticle {
     public final String content;
     public final String title;
-    public final User author; //dodać
+    public final User author;
     public final Set<TagEntity> tags;
 
     public NewArticle(String content, String title, User author, Set<TagEntity> tags) {

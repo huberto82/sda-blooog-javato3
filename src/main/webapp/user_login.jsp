@@ -1,4 +1,4 @@
-<%@page import="servlet.UserAction" %>
+<%@page import="servlet.user.UserActions" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -11,10 +11,10 @@
 <div class="d-flex align-content-center flex-wrap">
     <div class="container w-50">
         <h1>Login Form</h1>
-        <form action='user?action=${UserAction.POST_LOGIN}' method='post'>
+        <form action='user?${UserActions.PARAMETER_ACTION}=<%=UserActions.POST.POST_LOGIN%>' method='post'>
             <div class="form-group mb-3">
-                <input class="form-control mb-3" type="email" placeholder="user name" name='${UserAction.PARAMETER_EMAIL}'/>
-                <input class="form-control mb-3" type='password' placeholder="password" name='${UserAction.PARAMETER_PASSWORD}'/>
+                <input class="form-control mb-3" type="email" placeholder="user name" name='${UserActions.PARAMETER_EMAIL}'/>
+                <input class="form-control mb-3" type='password' placeholder="password" name='${UserActions.PARAMETER_PASSWORD}'/>
                 <button class="btn btn-primary mb-3" type='submit'>Login</button>
             </div>
         </form>

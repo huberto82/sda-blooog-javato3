@@ -33,12 +33,6 @@ public class ArticleEntity {
     )
     private Set<TagEntity> tags = new HashSet<>();
 
-
-    public ArticleEntity(String content) {
-        this.content = content;
-        this.created = LocalDateTime.now();
-    }
-
     public ArticleEntity(NewArticle na){
         this.content = na.content;
         this.title = na.title;

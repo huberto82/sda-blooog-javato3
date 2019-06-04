@@ -4,9 +4,10 @@ import config.BlooogConfig;
 import entity.user.User;
 import helper.Encoding;
 import helper.MailService;
+import servlet.user.UserActions;
 
 public class UserRegistration{
-    private static final String REGISTER_ACTION = "/user?action=verify";
+    private static final String REGISTER_ACTION = "/user?"+ UserActions.PARAMETER_ACTION+"="+UserActions.GET.VERIFY;
 
     public static boolean verifyUser(User user, String token){
         return Encoding.generateToken(getUserToken(user)).equals(token);
@@ -20,9 +21,9 @@ public class UserRegistration{
                 "Kliknij w link  "
                         + BlooogConfig.VALUES.getUrl()
                         + REGISTER_ACTION
-                        + "&id="
+                        + "&"+UserActions.PARAMETER_ID+"="
                         + user.id
-                        + "&token="
+                        + "&"+UserActions.PARAMETER_TOKEN+"="
                         + Encoding.generateToken(getUserToken(user)));
     }
 

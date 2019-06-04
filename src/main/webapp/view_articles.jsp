@@ -21,13 +21,13 @@
         <c:forEach var="article" items="${requestScope.articles}">
             <tr>
                 <td>
-                    <a href="/blooog_war/article?action=view&id=${article.id}">${article.title}</a>
+                    <a href="article?action=VIEW&id=${article.id}">${article.title}</a>
                 </td>
                 <td>
-                    <a href="article?action=delete&id=${article.id}">Usuń</a>
+                    <a href="article?action=DELETE&id=${article.id}">Usuń</a>
                 </td>
                 <td>
-                    <a href="article?action=changeTitle&id=${article.id}">Zmień tytuł</a>
+                    <a href="article?action=CHANGE_TITLE&id=${article.id}">Zmień tytuł</a>
                 </td>
             </tr>
         </c:forEach>

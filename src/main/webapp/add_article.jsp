@@ -5,17 +5,19 @@
   Time: 13:06
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="servlet.ArticleAction"%>
+<%@ page import="servlet.article.ArticleActions" %>
+
 <html>
 <%@ include file="head.jspf" %>
 <body>
 <div class="container col-6">
     <h1>Dodaj artykuł do bloga</h1>
-    <form action="article?action=add" method="post">
+    <form action="article?${ArticleAction.PARAMETER_ACTION}=<%=ArticleActions.POST.ADD%>" method="post">
         <div class = "form-group">
-            <input class ="form-control mb-3" type="text" name=${ArticleAction.PARAMETER_TITLE} placeholder="wpisz tytuł"/>
-            <textarea class ="form-control mb-3" name=${ArticleAction.PARAMETER_CONTENT} placeholder="wpisz treść"></textarea>
+            <input class ="form-control mb-3" type="text" placeholder="wpisz tytuł" name=${ArticleAction.PARAMETER_TITLE}/>
+            <textarea class ="form-control mb-3"  placeholder="wpisz treść" name=${ArticleAction.PARAMETER_CONTENT}> </textarea>
             <button class ="form-control mb-3" type="submit">Dodaj</button>
         </div>
     </form>

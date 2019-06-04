@@ -3,11 +3,10 @@ package dao;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-public class Daos implements DaoJPA{
+final public class Daos implements DaoJPA{
 
         private static EntityManager em;
         private static final String PERSISTENCE_UNIT = "blooog";
-        private static Daos instance;
 
         public final static UserDao USER = new UserDaoJPA(Daos.getInstance().getEntityManager());
         public final static ArticleDao ARTICLE = new ArticleDaoJPA(Daos.getInstance().getEntityManager());
@@ -23,9 +22,14 @@ public class Daos implements DaoJPA{
         }
 
         private static DaoJPA getInstance(){
-                if (instance == null) {
-                        instance = new Daos(PERSISTENCE_UNIT);
+                return Singleton.INSTANCE.daosInstance;
+        }
+
+        private enum Singleton {
+                INSTANCE(new Daos(PERSISTENCE_UNIT));
+                Daos daosInstance;
+                Singleton(Daos instance){
+                     this.daosInstance = instance;
                 }
-                return instance;
         }
 }
