@@ -1,8 +1,6 @@
 package servlet;
 
-import servlet.article.ArticleActions;
 import servlet.logged.LoggedUserActions;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

@@ -1,4 +1,5 @@
 package dao;
+import entity.tag.NewTag;
 import entity.tag.TagEntity;
 import io.vavr.collection.List;
 import javax.persistence.EntityManager;
@@ -6,7 +7,7 @@ import javax.persistence.Query;
 import java.util.Optional;
 import java.util.Set;
 
-class TagDaoJPA implements TagDao<TagEntity, TagEntity>{
+class TagDaoJPA implements TagDao<TagEntity, NewTag>{
 
     private final EntityManager em;
 
@@ -29,11 +30,12 @@ class TagDaoJPA implements TagDao<TagEntity, TagEntity>{
     }
 
     @Override
-    public long save(TagEntity obj) {
+    public long save(NewTag obj) {
         em.getTransaction().begin();
-        em.persist(obj);
+        TagEntity te = new TagEntity(obj);
+        em.persist(te);
         em.getTransaction().commit();
-        return obj.getId();
+        return te.getId();
     }
 
     @Override

@@ -2,10 +2,12 @@ package entity.tag;
 
 import entity.article.Article;
 import entity.article.ArticleEntity;
+import javassist.expr.NewExpr;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name="tag")
@@ -18,12 +20,26 @@ public class TagEntity {
     @Column(unique = true, nullable = false)
     private String name;
 
+    @ManyToMany(mappedBy = "tags")
+    private Set<ArticleEntity> articles = new HashSet<>();
+
     public TagEntity(String name) {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "tags")
-    private Set<ArticleEntity> articles = new HashSet<>();
+    public TagEntity(Tag tag){
+        this.id = tag.id;
+        this.name = tag.name;
+        this.articles = tag.articles.stream().map(a -> new ArticleEntity(a)).collect(Collectors.toSet());
+    }
+
+    public TagEntity(NewTag newTag){
+        this.name = newTag.name;
+        this.articles = new HashSet<>();
+    }
+
+    public TagEntity() {
+    }
 
     public long getId() {
         return id;

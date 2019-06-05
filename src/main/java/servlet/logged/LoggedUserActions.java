@@ -13,7 +13,8 @@ final public class LoggedUserActions {
     public static final String PARAMETER_ACTION = "action";
 
     public enum GET{
-        LOGOUT(new GetLoggedLogoutAction());
+        LOGOUT(new GetLoggedLogoutAction()),
+        ADD_ARTICLE((req, resp) ->  req.getRequestDispatcher("user_add_article.jsp"));
 
         private HttpServletMethodProcessor processor;
 
