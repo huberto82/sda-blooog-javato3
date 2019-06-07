@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: cs
@@ -12,5 +13,9 @@
     <h1>${requestScope.article.title}</h1>
     <p>Treść: ${requestScope.article.content}</p>
     <p>Autor: ${requestScope.article.author.nick}</p>
+    <p>Tagi:</p>
+    <c:forEach items="${requestScope.article.tags}" var="tag">
+        <p>${tag.name}</p>
+    </c:forEach>
 </body>
 </html>

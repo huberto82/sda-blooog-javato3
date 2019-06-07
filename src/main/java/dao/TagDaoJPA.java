@@ -1,13 +1,16 @@
 package dao;
 import entity.tag.NewTag;
+import entity.tag.Tag;
 import entity.tag.TagEntity;
 import io.vavr.collection.List;
+import io.vavr.collection.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Collectors;
 
-class TagDaoJPA implements TagDao<TagEntity, NewTag>{
+class TagDaoJPA implements TagDao<Tag, NewTag>{
 
     private final EntityManager em;
 
@@ -16,16 +19,16 @@ class TagDaoJPA implements TagDao<TagEntity, NewTag>{
     }
 
     @Override
-    public List<TagEntity> getAll() {
+    public List<Tag> getAll() {
         em.getTransaction().begin();
-        Query q = em.createQuery("From TagEntity");
-        List<TagEntity> result = List.ofAll(q.getResultList());
+        Query q = em.createQuery("From TagEntity", TagEntity.class);
+        List<Tag> result = List.ofAll(q.getResultStream().map(ae -> new Tag((TagEntity) ae)));
         em.getTransaction().commit();
         return result;
     }
 
     @Override
-    public Optional<TagEntity> get(long id) {
+    public Optional<Tag> get(long id) {
         return Optional.empty();
     }
 
@@ -44,7 +47,7 @@ class TagDaoJPA implements TagDao<TagEntity, NewTag>{
     }
 
     @Override
-    public void update(TagEntity obj) {
+    public void update(Tag obj) {
 
     }
 
@@ -57,8 +60,8 @@ class TagDaoJPA implements TagDao<TagEntity, NewTag>{
     }
 
     @Override
-    public void addAll(Set<TagEntity> set) {
-        for(TagEntity te: set){
+    public void addAll(java.util.Set<Tag> set) {
+        for(Tag te: set){
             em.getTransaction().begin();
             em.persist(te);
             em.getTransaction().commit();

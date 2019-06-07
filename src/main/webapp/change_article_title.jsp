@@ -1,4 +1,4 @@
-<%--
+<%@ page import="servlet.article.ArticleActions" %><%--
   Created by IntelliJ IDEA.
   User: cs
   Date: 26.05.2019
@@ -10,7 +10,7 @@
 <%@include file="head.jspf"%>
 <body>
     <div class ="container col-6">
-        <form action="article?action=update&id=${requestScope.article.id}" method="post">
+        <form action="article?action=<%=ArticleActions.POST.CHANGE_TITLE%>&id=${requestScope.article.id}" method="post">
             <div class="form-group ">
                 <input  class = "form-control mb-3" type="text" name = "title" value="${requestScope.article.title}"/>
                 <textarea class ="form-control mb-3" disabled name = "content">

@@ -2,17 +2,18 @@ package repository;
 
 import dao.TagDao;
 import entity.tag.NewTag;
+import entity.tag.Tag;
 import entity.tag.TagEntity;
 import io.vavr.collection.List;
 
 public class TagRepository {
-    private TagDao<TagEntity, NewTag> dao;
+    private TagDao<Tag, NewTag> dao;
 
-    public TagRepository(TagDao<TagEntity, NewTag> dao) {
+    public TagRepository(TagDao<Tag, NewTag> dao) {
         this.dao = dao;
     }
 
-    public List<TagEntity> getAll(){
+    public List<Tag> getAll(){
         return dao.getAll();
     }
 

@@ -1,6 +1,6 @@
 package entity.article;
 
-import entity.tag.TagEntity;
+import entity.tag.Tag;
 import entity.user.User;
 
 import java.util.Set;
@@ -9,9 +9,9 @@ public class NewArticle {
     public final String content;
     public final String title;
     public final User author;
-    public final Set<TagEntity> tags;
+    public final Set<Tag> tags;
 
-    public NewArticle(String content, String title, User author, Set<TagEntity> tags) {
+    public NewArticle(String content, String title, User author, Set<Tag> tags) {
         this.content = content;
         this.title = title;
         this.author = author;
@@ -28,5 +28,9 @@ public class NewArticle {
 
     public User getAuthor() {
         return author;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
     }
 }

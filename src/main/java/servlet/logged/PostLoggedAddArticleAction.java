@@ -21,19 +21,22 @@ public class PostLoggedAddArticleAction implements HttpServletMethodProcessor {
     public void process(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         String title = Encoding.encode(httpServletRequest.getParameter(ArticleActions.PARAMETER_TITLE));
         String content = Encoding.encode(httpServletRequest.getParameter(ArticleActions.PARAMETER_CONTENT));
-
         Arrays.stream(Encoding.encode(httpServletRequest.getParameter("tags"))
                 .split("\\s"))
-                .filter(name -> !Repositories.TAG.getAll().map(e -> e.getName()).contains(name))
-                .forEach(nameTag -> Repositories.TAG.add(new NewTag(nameTag)));
-
+                .filter(name -> !Repositories.TAG.getAll().map(tag -> tag.name).contains(name))
+                .forEach(nameTag -> {
+                    Repositories.TAG.add(new NewTag(nameTag));
+                    System.out.println(nameTag);
+                });
+        System.out.println("STAGE 1");
         Set<String> inputedTags = Arrays.stream(Encoding.encode(httpServletRequest.getParameter("tags"))
                 .split("\\s")).collect(Collectors.toSet());
-        Set<Tag> tags = Repositories.TAG.getAll().toStream().filter(tag -> inputedTags.contains(tag.getName())).collect(Collectors.toSet()).;
-        //TODO sprawdzić czy tagi już istnieją, nieistniejące dodać do tagów
+        System.out.println("STAGE 2");
+        Set<Tag> tags = Repositories.TAG.getAll().toStream().filter(tag -> inputedTags.contains(tag.getName())).collect(Collectors.toSet());
+        System.out.println("STAGE 3");
         User user = (User) httpServletRequest.getSession().getAttribute(LoggedUserActions.ATTRIBUTE_LOGGED);
         Repositories.USER.get(user.id).ifPresent(author ->
                 Repositories.ARTICLE.addArticle(new NewArticle(content, title, author, tags)));
-        httpServletResponse.sendRedirect(".logged/article?action=viewAll");
+        httpServletResponse.sendRedirect(".article?action="+ArticleActions.GET.VIEW_ALL);
     }
 }

@@ -14,7 +14,8 @@ final public class LoggedUserActions {
 
     public enum GET{
         LOGOUT(new GetLoggedLogoutAction()),
-        ADD_ARTICLE((req, resp) ->  req.getRequestDispatcher("user_add_article.jsp"));
+        PROFILE((req, resp) -> resp.getWriter().println("USer Logged")),
+        ADD_ARTICLE((req, resp) ->  req.getRequestDispatcher("user_add_article.jsp").forward(req,resp));
 
         private HttpServletMethodProcessor processor;
 

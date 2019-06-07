@@ -21,7 +21,7 @@ public class TagEntity {
     private String name;
 
     @ManyToMany(mappedBy = "tags")
-    private Set<ArticleEntity> articles = new HashSet<>();
+    transient private Set<ArticleEntity> articles = new HashSet<>();
 
     public TagEntity(String name) {
         this.name = name;
@@ -35,7 +35,6 @@ public class TagEntity {
 
     public TagEntity(NewTag newTag){
         this.name = newTag.name;
-        this.articles = new HashSet<>();
     }
 
     public TagEntity() {

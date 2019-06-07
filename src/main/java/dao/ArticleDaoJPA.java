@@ -3,10 +3,15 @@ package dao;
 import entity.article.Article;
 import entity.article.ArticleEntity;
 import entity.article.NewArticle;
+import entity.tag.Tag;
+import entity.tag.TagEntity;
 import io.vavr.collection.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 class ArticleDaoJPA<User, NewUser> implements ArticleDao<Article, NewArticle>{
 
@@ -79,5 +84,14 @@ class ArticleDaoJPA<User, NewUser> implements ArticleDao<Article, NewArticle>{
         .setParameter("id", id)
         .getResultList().stream()
         .map(art -> new Article(art)));
+    }
+
+    @Override
+    public void addTags(long articleId, Set<Tag> tags) {
+        Set<TagEntity> addedTags = tags.stream().map( t -> new TagEntity(t)).collect(Collectors.toSet());
+        getEntity(articleId).ifPresent(articleEntity -> {
+            articleEntity.getTags().addAll(addedTags);
+            update(new Article(articleEntity));
+        });
     }
 }

@@ -1,4 +1,4 @@
-<%--
+<%@ page import="servlet.logged.LoggedUserActions" %><%--
   Created by IntelliJ IDEA.
   User: cs
   Date: 25.05.2019
@@ -7,11 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<%@ include file="../head.jspf" %>
+<%@ include file="head.jspf" %>
 <body>
 <div class="container col-6">
     <h1>Dodaj artykuł do bloga jako użytkownik + ${sessionScope.loggedUser.id}</h1>
-    <form action="show?action=addArticle" method="post">
+    <form action="logged?action=<%=LoggedUserActions.POST.ADD_ARTICLE%>" method="post">
         <div class = "form-group">
             <input class ="form-control mb-3" type="text" name="title" placeholder="wpisz tytuł"/>
             <textarea class ="form-control mb-3" name="content" placeholder="wpisz treść"></textarea>

@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "article")
@@ -38,7 +39,7 @@ public class ArticleEntity {
         this.title = na.title;
         this.created = LocalDateTime.now();
         this.author = new UserEntity(na.author);
-        this.tags = na.tags;
+        this.tags = na.tags.stream().map(t->new TagEntity(t)).collect(Collectors.toSet());
     }
 
     public ArticleEntity(Article a){
@@ -47,7 +48,7 @@ public class ArticleEntity {
         this.created = a.created;
         this.content = a.content;
         this.author = new UserEntity(a.author);
-        this.tags = a.tags;
+        this.tags = a.tags.stream().map(t->new TagEntity(t)).collect(Collectors.toSet());
     }
 
     public ArticleEntity() {

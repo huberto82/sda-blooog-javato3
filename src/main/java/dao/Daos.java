@@ -1,11 +1,12 @@
 package dao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 final public class Daos implements DaoJPA{
 
-        private static EntityManager em;
+        private static EntityManagerFactory emf;
         private static final String PERSISTENCE_UNIT = "blooog";
 
         public final static UserDao USER = new UserDaoJPA(Daos.getInstance().getEntityManager());
@@ -13,12 +14,12 @@ final public class Daos implements DaoJPA{
         public final static TagDao TAG = new TagDaoJPA(Daos.getInstance().getEntityManager());
 
         private Daos(String persistenseUnit){
-                em = Persistence.createEntityManagerFactory(persistenseUnit).createEntityManager();
+                emf = Persistence.createEntityManagerFactory(persistenseUnit);
         }
 
         @Override
         public EntityManager getEntityManager() {
-                return em;
+                return emf.createEntityManager();
         }
 
         private static DaoJPA getInstance(){

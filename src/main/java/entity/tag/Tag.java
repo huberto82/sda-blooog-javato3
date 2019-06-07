@@ -12,7 +12,7 @@ public class Tag {
 
     public final Set<Article> articles;
 
-    Tag(TagEntity tagEntity){
+    public Tag(TagEntity tagEntity){
         this.id = tagEntity.getId();
         this.name = tagEntity.getName();
         this.articles = tagEntity.getArticles().stream().map(e-> new Article(e)).collect(Collectors.toSet());
