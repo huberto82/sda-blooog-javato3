@@ -22,12 +22,12 @@ public enum BlooogConfig {
             }
             Properties prop = new Properties();
             prop.load(inputStream);
-            this.mailUser = prop.getProperty("user");
-            this.mailPassword = prop.getProperty("password");
-            this.mailPop3 = prop.getProperty("pop3");
-            this.mailSmtp = prop.getProperty("smtp");
-            this.url = prop.getProperty("url");
-            this.smtpPort = prop.getProperty("smtpPort");
+            this.mailUser = prop.getProperty("USER");
+            this.mailPassword = prop.getProperty("PASSWORD");
+            this.mailPop3 = prop.getProperty("POP3");
+            this.mailSmtp = prop.getProperty("SMTP");
+            this.url = prop.getProperty("URL");
+            this.smtpPort = prop.getProperty("SMTP_PORT");
 
         } catch (Exception e) {
             errorMessage = "File config not found!";

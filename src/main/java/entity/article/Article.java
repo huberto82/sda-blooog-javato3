@@ -5,6 +5,7 @@ import entity.user.User;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,5 +37,20 @@ public class Article extends NewArticle{
 
     public Set<Tag> getTags() {
         return tags;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Article)) return false;
+        Article article = (Article) o;
+        return getId() == article.getId() &&
+                Objects.equals(getCreated(), article.getCreated()) &&
+                Objects.equals(getTags(), article.getTags());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getCreated(), getTags());
     }
 }

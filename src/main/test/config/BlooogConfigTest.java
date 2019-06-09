@@ -1,36 +1,25 @@
 package config;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BlooogConfigTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getMailPop3() {
-        assertEquals("mail.record-it.pl",BlooogConfig.VALUES.getMailPop3());
+        System.out.println(Config.Mail.POP3);
+        System.out.println(BlooogConfig.VALUES.getMailPop3());
+        assertEquals(BlooogConfig.VALUES.getMailPop3(), Config.Mail.POP3);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getMailSmtp() {
-        assertEquals("mail.record-it.pl",BlooogConfig.VALUES.getMailSmtp());
+        assertEquals(BlooogConfig.VALUES.getMailSmtp(), Config.Mail.SMTP);
     }
 
-    @org.junit.jupiter.api.Test
-    void getMailUser() {
-        assertEquals("root",BlooogConfig.VALUES.getMailUser());
-    }
-
-    @org.junit.jupiter.api.Test
-    void getMailPassword() {
-        assertEquals("",BlooogConfig.VALUES.getMailPassword());
-    }
-
-    @org.junit.jupiter.api.Test
-    void getErrorMessage() {
-        assertEquals("No errors",BlooogConfig.VALUES.getErrorMessage());
-    }
-
-    @org.junit.jupiter.api.Test
-    void getUrl() {
-        assertEquals("http://localhost:8080/blooog_war",BlooogConfig.VALUES.getUrl());
+    @Test
+    void getUser() {
+        assertEquals(BlooogConfig.VALUES.getMailUser(), Config.Mail.USER);
     }
 }

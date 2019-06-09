@@ -28,15 +28,12 @@ public class PostLoggedAddArticleAction implements HttpServletMethodProcessor {
                     Repositories.TAG.add(new NewTag(nameTag));
                     System.out.println(nameTag);
                 });
-        System.out.println("STAGE 1");
         Set<String> inputedTags = Arrays.stream(Encoding.encode(httpServletRequest.getParameter("tags"))
                 .split("\\s")).collect(Collectors.toSet());
-        System.out.println("STAGE 2");
-        Set<Tag> tags = Repositories.TAG.getAll().toStream().filter(tag -> inputedTags.contains(tag.getName())).collect(Collectors.toSet());
-        System.out.println("STAGE 3");
+        Set<Tag> newTags = Repositories.TAG.getAll().toStream().filter(tag -> inputedTags.contains(tag.getName())).collect(Collectors.toSet());
         User user = (User) httpServletRequest.getSession().getAttribute(LoggedUserActions.ATTRIBUTE_LOGGED);
         Repositories.USER.get(user.id).ifPresent(author ->
-                Repositories.ARTICLE.addArticle(new NewArticle(content, title, author, tags)));
-        httpServletResponse.sendRedirect(".article?action="+ArticleActions.GET.VIEW_ALL);
+                Repositories.ARTICLE.addArticle(new NewArticle(content, title, author, newTags)));
+        httpServletResponse.sendRedirect("article?action="+ArticleActions.GET.VIEW_ALL);
     }
 }

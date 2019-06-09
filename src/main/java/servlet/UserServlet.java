@@ -1,6 +1,9 @@
 package servlet;
+import dao.Daos;
+import repository.Repositories;
 import servlet.user.UserActions;
 
+import javax.servlet.Registration;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,4 +31,8 @@ public class UserServlet extends HttpServlet {
         }
     }
 
+    @Override
+    public void destroy() {
+        Daos.close();
+    }
 }

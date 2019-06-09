@@ -9,7 +9,8 @@
 <html>
 <%@include file="head.jspf"%>
 <body>
-    <div class ="container col-6">
+    <h1>Zmień tytuł artykułu</h1>
+    <div class ="container col-6 mt-3">
         <form action="article?action=<%=ArticleActions.POST.CHANGE_TITLE%>&id=${requestScope.article.id}" method="post">
             <div class="form-group ">
                 <input  class = "form-control mb-3" type="text" name = "title" value="${requestScope.article.title}"/>

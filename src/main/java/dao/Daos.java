@@ -7,10 +7,13 @@ import javax.persistence.Persistence;
 final public class Daos implements DaoJPA{
 
         private static EntityManagerFactory emf;
+
         private static final String PERSISTENCE_UNIT = "blooog";
 
         public final static UserDao USER = new UserDaoJPA(Daos.getInstance().getEntityManager());
+
         public final static ArticleDao ARTICLE = new ArticleDaoJPA(Daos.getInstance().getEntityManager());
+
         public final static TagDao TAG = new TagDaoJPA(Daos.getInstance().getEntityManager());
 
         private Daos(String persistenseUnit){
@@ -24,6 +27,10 @@ final public class Daos implements DaoJPA{
 
         private static DaoJPA getInstance(){
                 return Singleton.INSTANCE.daosInstance;
+        }
+
+        public static void close(){
+                emf.close();
         }
 
         private enum Singleton {

@@ -6,6 +6,7 @@ import javassist.expr.NewExpr;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -62,6 +63,21 @@ public class TagEntity {
 
     public void setArticles(Set<ArticleEntity> articles) {
         this.articles = articles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TagEntity)) return false;
+        TagEntity tagEntity = (TagEntity) o;
+        return getId() == tagEntity.getId() &&
+                Objects.equals(getName(), tagEntity.getName()) &&
+                Objects.equals(getArticles(), tagEntity.getArticles());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getArticles());
     }
 }
 

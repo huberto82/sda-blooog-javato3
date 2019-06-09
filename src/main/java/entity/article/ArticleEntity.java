@@ -5,6 +5,7 @@ import entity.user.UserEntity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -100,5 +101,23 @@ public class ArticleEntity {
 
     public void setTags(Set<TagEntity> tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ArticleEntity)) return false;
+        ArticleEntity that = (ArticleEntity) o;
+        return getId() == that.getId() &&
+                Objects.equals(getContent(), that.getContent()) &&
+                Objects.equals(getTitle(), that.getTitle()) &&
+                Objects.equals(getCreated(), that.getCreated()) &&
+                Objects.equals(getAuthor(), that.getAuthor()) &&
+                Objects.equals(getTags(), that.getTags());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getContent(), getTitle(), getCreated(), getAuthor(), getTags());
     }
 }

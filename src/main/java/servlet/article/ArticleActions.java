@@ -1,9 +1,6 @@
 package servlet.article;
+import servlet.Action;
 import servlet.HttpServletMethodProcessor;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 final public class ArticleActions {
 
@@ -15,7 +12,7 @@ final public class ArticleActions {
     public static final String ATTRIBUTE_ARTICLE = "article";
     public static final String ATTRIBUTE_ARTICLES = "articles";
 
-    public enum GET {
+    public enum GET implements Action {
         VIEW_ALL(new GetViewArticlesAction()),
         VIEW(new GetViewArticleAction()),
         DELETE(new GetDeleteArticleAction()),
@@ -28,13 +25,13 @@ final public class ArticleActions {
             this.processor = processor;
         }
 
-        public void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            processor.process(req, resp);
+        @Override
+        public HttpServletMethodProcessor getProcessor() {
+            return processor;
         }
-
     }
 
-    public enum POST{
+    public enum POST implements Action{
         ADD(new PostAddArticleAction()),
         CHANGE_TITLE(new PostChangeTitleAction());
 
@@ -44,8 +41,9 @@ final public class ArticleActions {
             this.processor = processor;
         }
 
-        public void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            processor.process(req, resp);
+        @Override
+        public HttpServletMethodProcessor getProcessor() {
+            return processor;
         }
     }
 
