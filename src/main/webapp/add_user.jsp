@@ -12,12 +12,12 @@
 <body>
 <div class="container col-6">
     <h1>Dodaj użytkownika do bloga</h1>
-    <form action="user?${UserAction.PARAMETER_ACTION}=${UserAction.POST_REGISTER}" method="post">
+    <form action="user?${UserActions.PARAMETER_ACTION}=<%=UserActions.POST.REGISTER%>" method="post">
         <div class = "form-group">
-            <input class ="form-control mb-3" type="email" placeholder="wpisz email" name= ${UserAction.PARAMETER_EMAIL}/>
-            <input class ="form-control mb-3" type="text" placeholder="wpisz nick" name=${UserAction.PARAMETER_NICK}/>
-            <input class ="form-control mb-3" type="password" placeholder="wpisz hasło name=${UserAction.PARAMETER_PASSWORD}"/>
-            <input class ="form-control mb-3" type="password" placeholder="wpisz hasło" name=${UserAction.PARAMETER_REPEATED_PASSWORD} />
+            <input class ="form-control mb-3" type="email" placeholder="wpisz email" name= "${UserActions.PARAMETER_EMAIL}" />
+            <input class ="form-control mb-3" type="text" placeholder="wpisz nick" name= "${UserActions.PARAMETER_NICK}" />
+            <input class ="form-control mb-3" type="password" placeholder="wpisz hasło" name = "${UserActions.PARAMETER_PASSWORD}" />
+            <input class ="form-control mb-3" type="password" placeholder="powtórz hasło" name = "${UserActions.PARAMETER_REPEATED_PASSWORD}" />
             <button class ="form-control mb-3" type="submit">Zarejestruj</button>
         </div>
     </form>

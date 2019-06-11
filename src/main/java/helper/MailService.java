@@ -1,5 +1,6 @@
 package helper;
-import config.BlooogConfig;
+
+import config.Config;
 
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -15,11 +16,10 @@ public class MailService {
         this.username = username;
         this.prop = new Properties();
         prop.put("mail.smtp.auth", true);
-        //zamienić na dane z konfiguracji
-        prop.put("mail.smtp.host", BlooogConfig.VALUES.getMailSmtp());
-        prop.put("mail.smtp.port", BlooogConfig.VALUES.getSmtpPort());
+        prop.put("mail.smtp.host", Config.Mail.SMTP.toString());
+        prop.put("mail.smtp.port", Config.Mail.SMTP_PORT.toString());
         prop.put("mail.smtp.starttls.enable", "true");
-        prop.put("mail.smtp.ssl.trust", BlooogConfig.VALUES.getMailSmtp());
+        prop.put("mail.smtp.ssl.trust", Config.Mail.SMTP.toString());
 
     }
 

@@ -1,6 +1,6 @@
 package helper.user;
 
-import config.BlooogConfig;
+import config.Config;
 import entity.user.User;
 import helper.Encoding;
 import helper.MailService;
@@ -14,12 +14,11 @@ public class UserRegistration{
     }
 
     public static void sendRegistrationMail(User user) {
-        MailService mailService = new MailService(BlooogConfig.VALUES.getMailUser(), BlooogConfig.VALUES.getMailPassword());
-
+        MailService mailService = new MailService(Config.Mail.USER.toString(), Config.Mail.PASSWORD.toString());
         mailService.sendMailTo(user.email,
                 "Bloog: verification link for registration",
                 "Kliknij w link  "
-                        + BlooogConfig.VALUES.getUrl()
+                        + Config.Server.URL
                         + REGISTER_ACTION
                         + "&"+UserActions.PARAMETER_ID+"="
                         + user.id

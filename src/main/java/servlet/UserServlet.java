@@ -1,9 +1,6 @@
 package servlet;
-import dao.Daos;
-import repository.Repositories;
-import servlet.user.UserActions;
 
-import javax.servlet.Registration;
+import servlet.user.UserActions;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,10 +26,5 @@ public class UserServlet extends HttpServlet {
         } catch (IllegalArgumentException e) {
             System.err.println("Unknown action!");
         }
-    }
-
-    @Override
-    public void destroy() {
-        Daos.close();
     }
 }

@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 final public class Config {
+
     public enum Mail{
         POP3,
         SMTP,
@@ -24,6 +25,11 @@ final public class Config {
             return PropertiesFile.FILE.get().getProperty(name());
         }
 
+        @Override
+        public String toString() {
+            return PropertiesFile.FILE.get().getProperty(name());
+        }
+
     }
 
     private enum PropertiesFile {
@@ -35,9 +41,6 @@ final public class Config {
 
         PropertiesFile(){
             try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(CONFIG_PATH)){
-                if (inputStream == null){
-                    return;
-                }
                 prop = new Properties();
                 prop.load(inputStream);
             } catch (Exception e) {
@@ -48,5 +51,8 @@ final public class Config {
         public Properties get(){
             return prop;
         }
+    }
+
+    private Config(){
     }
 }

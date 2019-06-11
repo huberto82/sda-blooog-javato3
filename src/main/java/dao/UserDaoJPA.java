@@ -3,6 +3,7 @@ import entity.user.NewUser;
 import entity.user.User;
 import entity.user.UserEntity;
 import io.vavr.collection.List;
+import mapper.UserMapper;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -19,15 +20,15 @@ class UserDaoJPA implements UserDao<User, NewUser> {
     @Override
     public List<User> getAll() {
         em.getTransaction().begin();
-        Query q = em.createQuery("From UserEntity");
-        List<User> result = List.ofAll(q.getResultStream().map(e -> new User((UserEntity) e)));
+        Query q = em.createQuery("Select u From UserEntity u", UserEntity.class);
+        List<User> result = List.ofAll(q.getResultStream().map(e -> UserMapper.INSTANCE.toDomain((UserEntity) e)));
         em.getTransaction().commit();
         return result;
     }
 
     @Override
     public Optional<User> get(long id) {
-        return getEntity(id).map(user -> new User(user));
+        return getEntity(id).map(UserMapper.INSTANCE::toDomain);
     }
 
     @Override
@@ -90,7 +91,7 @@ class UserDaoJPA implements UserDao<User, NewUser> {
             return Optional.of(em
                     .createQuery("Select u from UserEntity u where email = :email", UserEntity.class)
                     .setParameter("email", email)
-                    .getSingleResult()).map(ue -> new User(ue));
+                    .getSingleResult()).map(UserMapper.INSTANCE::toDomain);
         } catch (Exception e) {
             return Optional.empty();
         }
@@ -101,7 +102,7 @@ class UserDaoJPA implements UserDao<User, NewUser> {
         return List.ofAll(em
                 .createQuery("Select u from UserEntity u where enabled = true", UserEntity.class)
                 .getResultStream()
-                .map(ue -> new User(ue)));
+                .map(UserMapper.INSTANCE::toDomain));
     }
 
 }

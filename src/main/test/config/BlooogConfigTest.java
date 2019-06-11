@@ -8,18 +8,16 @@ class BlooogConfigTest {
 
     @Test
     void getMailPop3() {
-        System.out.println(Config.Mail.POP3);
-        System.out.println(BlooogConfig.VALUES.getMailPop3());
-        assertEquals(BlooogConfig.VALUES.getMailPop3(), Config.Mail.POP3);
+        assertEquals("mail.record-it.pl", Config.Mail.POP3.toString());
     }
 
     @Test
     void getMailSmtp() {
-        assertEquals(BlooogConfig.VALUES.getMailSmtp(), Config.Mail.SMTP);
+        assertEquals("mail.record-it.pl", Config.Mail.SMTP.toString());
     }
 
     @Test
     void getUser() {
-        assertEquals(BlooogConfig.VALUES.getMailUser(), Config.Mail.USER);
+        assertEquals("blooog@record-it.pl", Config.Mail.USER.toString());
     }
 }

@@ -4,40 +4,30 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-final public class Daos implements DaoJPA{
+final public class Daos {
 
-        private static EntityManagerFactory emf;
+        public final static UserDao USER = new UserDaoJPA(EMF.INSTANCE.getEntityManager());
 
-        private static final String PERSISTENCE_UNIT = "blooog";
+        public final static ArticleDao ARTICLE = new ArticleDaoJPA(EMF.INSTANCE.getEntityManager());
 
-        public final static UserDao USER = new UserDaoJPA(Daos.getInstance().getEntityManager());
+        public final static TagDao TAG = new TagDaoJPA(EMF.INSTANCE.getEntityManager());
 
-        public final static ArticleDao ARTICLE = new ArticleDaoJPA(Daos.getInstance().getEntityManager());
-
-        public final static TagDao TAG = new TagDaoJPA(Daos.getInstance().getEntityManager());
-
-        private Daos(String persistenseUnit){
-                emf = Persistence.createEntityManagerFactory(persistenseUnit);
+        private Daos(){
         }
 
-        @Override
-        public EntityManager getEntityManager() {
-                return emf.createEntityManager();
-        }
+        private enum EMF implements DaoJPA {
 
-        private static DaoJPA getInstance(){
-                return Singleton.INSTANCE.daosInstance;
-        }
+                INSTANCE("blooog");
 
-        public static void close(){
-                emf.close();
-        }
+                private EntityManagerFactory emf;
 
-        private enum Singleton {
-                INSTANCE(new Daos(PERSISTENCE_UNIT));
-                Daos daosInstance;
-                Singleton(Daos instance){
-                     this.daosInstance = instance;
+                EMF(String persistentUnit){
+                     emf = Persistence.createEntityManagerFactory(persistentUnit);
+                }
+
+                @Override
+                public EntityManager getEntityManager() {
+                     return emf.createEntityManager();
                 }
         }
 }

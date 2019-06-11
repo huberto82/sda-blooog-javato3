@@ -18,6 +18,7 @@ public class PostRegisterUserAction implements HttpServletMethodProcessor {
         String password = Encoding.encode(httpServletRequest.getParameter(UserActions.PARAMETER_PASSWORD));
         String repeatedPassword = Encoding.encode(httpServletRequest.getParameter(UserActions.PARAMETER_REPEATED_PASSWORD));
         String nick = Encoding.encode(httpServletRequest.getParameter(UserActions.PARAMETER_NICK));
+        System.out.println(email + " " + password +" "+ repeatedPassword +" "+nick);
         if (Repositories.USER.existEmail(email)) {
             httpServletResponse.getWriter().println("Taki adres email już istnieje. Zmień email.");
             return;
